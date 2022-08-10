@@ -1,6 +1,7 @@
 ## AsteroidsGame
 
-<img width="599" alt="image" src="https://user-images.githubusercontent.com/110590337/183893601-ae82aed3-c176-46f6-8d0c-2076747060fa.png">
+![asteroids](https://user-images.githubusercontent.com/110590337/183898684-38783abd-dbb6-4aa7-bc19-c664a1fce8e3.gif)
+
 
 <br>
 
