@@ -1,6 +1,6 @@
 <h1> Projects</h1>
 
-<p> A summary of projects that has been done</p>
+<p>Project Overview</p>
 
 <h2>C++</h2>
 <ul>
