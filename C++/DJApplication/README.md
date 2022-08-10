@@ -5,7 +5,7 @@
 <br>
 
 <h2>Introduction</h2>
-<p>The DJAppication is a GUI application which uses C++ and a GUI library called JUCE to run. The application is made to look like a DJ deck which allows the user to add songs and play around with it. The features include changing the speed, volume and also the time of the song. It also features a playlist component which allows the user to add their desired songs and play it when they want to. </p>
+<p>The DJAppication is a GUI application which uses C++ and a GUI library called JUCE to run. The application is made to act like a DJ deck which allows the user to add songs and play around with it. The features include changing the speed, volume and also the time of the song. It also features a playlist component which allows the user to add their desired songs and play it when they want to. </p>
 
 <h2>Modules</h2>
 <ul>
