@@ -15,3 +15,8 @@
   <li>AsteroidGame</li>
   <li>NoiseGrid</li>
 </ul>
+
+<h2>Python</h2>
+<ul>
+  <li>Bitcoin Price Analysis</li>
+<ul>
