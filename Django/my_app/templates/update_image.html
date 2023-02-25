@@ -1,0 +1,103 @@
+{% load bootstrap4 %} {% load static %}
+
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      .container {
+        font-family: Lato;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 15px;
+        font-family: Lato;
+        font-size: 20px;
+      }
+
+      .form-control {
+        font-size: 16px;
+        font-family: Arial, Helvetica, sans-serif;
+        width: 500px;
+        height: 250px;
+      }
+
+      .container button {
+        background-color: #1a237e;
+        color: #fff;
+        border-radius: 10px;
+        border: none;
+        padding: 10px 15px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      .container button:hover {
+        background-color: #2196f3;
+      }
+
+      input[type="file"] {
+        margin-top: 10px;
+        border: 2px solid #ccc;
+        border-radius: 5px;
+        padding: 10px;
+        width: 300px;
+        box-sizing: border-box;
+        background-color: #fff;
+        color: #000;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="nav">
+      <div class="nav-logo">
+        <img src="/media/social-media.png" class="logo" alt="logo" />
+
+        <p class="logo-p">Social Media</p>
+      </div>
+
+      <div class="nav-links">
+        <ul>
+          <li><a href="/">Home</a></li>
+
+          {% if request.user.is_authenticated %}
+
+          <li><a href="/logout">Logout</a></li>
+
+          <img
+            class="profile-pic"
+            src="{{ request.user.appuser.profile_pic.url }}"
+            alt="Profile Picture"
+          />
+
+          <p class="nav-usernmae">{{ request.user.username }}</p>
+
+          {% else %}
+
+          <li><a href="/register">Register</a></li>
+          <li><a href="/login">Login</a></li>
+
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+
+    <div class="container">
+      <h1>Update Image</h1>
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %} {{ form.as_p }}
+
+        <button type="submit" class="btn btn-primary">Update</button>
+      </form>
+    </div>
+  </body>
+</html>

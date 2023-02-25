@@ -1,0 +1,127 @@
+{% load static %} {% load bootstrap4 %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <style>
+    hr {
+      margin: 20px 0;
+      border: none;
+      border-top: 1px solid #ccc;
+    }
+
+    .chat-row {
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      padding: 5px;
+    }
+
+    .chat-participant {
+      font-family: Lato;
+      margin-left: 10px;
+    }
+
+    .chat-link {
+      display: inline-block;
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 15px;
+      border-radius: 10px;
+      font-size: 16px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .chat-link:hover {
+      background-color: #1a237e;
+    }
+
+    .chat-message {
+      flex-grow: 2;
+      text-align: right;
+      align-items: flex-start;
+      font-size: 14px;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .chat-message small {
+      display: inline-block;
+      text-align: right;
+      margin-right: 5px;
+    }
+  </style>
+  <body>
+    <div class="nav">
+      <div class="nav-logo">
+        <img src="/media/social-media.png" class="logo" alt="logo" />
+
+        <p class="logo-p">Social Media</p>
+      </div>
+
+      <div class="nav-links">
+        <ul>
+          <li><a href="/">Home</a></li>
+
+          {% if request.user.is_authenticated %}
+
+          <li><a href="/logout">Logout</a></li>
+
+          <img
+            class="profile-pic"
+            src="{{ request.user.appuser.profile_pic.url }}"
+            alt="Profile Picture"
+          />
+
+          <p class="nav-usernmae">{{ request.user.username }}</p>
+
+          {% else %}
+
+          <li><a href="/register">Register</a></li>
+          <li><a href="/login">Login</a></li>
+
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+
+    <div class="container">
+      <h1>Chats</h1>
+      <hr />
+
+      {% for chat in chat_history %}
+      <div class="chat-row">
+        <div class="chat-details">
+          <div class="chat-participant">
+            <h2>
+              {{ chat.participant.username }}: {{ chat.latest_message.message }}
+            </h2>
+          </div>
+          <div class="chat-message">
+            <small class="text-muted"
+              >{{ chat.latest_message.timestamp|date:"F d, Y H:i" }}</small
+            >
+            <a
+              href="{% url 'chat' chat.participant.username %}"
+              class="chat-link"
+              >Chat</a
+            >
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <p>No chat history found.</p>
+      {% endfor %}
+    </div>
+  </body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="../static/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="nav">
+      <div class="nav-logo">
+        <img src="/media/social-media.png" class="logo" alt="logo" />
+
+        <p class="logo-p">Social Media</p>
+      </div>
+
+      <div class="nav-links">
+        <ul>
+          <li><a href="/">Home</a></li>
+
+          {% if request.user.is_authenticated %}
+
+          <li><a href="/logout">Logout</a></li>
+
+          <img
+            class="profile-pic"
+            src="{{ request.user.appuser.profile_pic.url }}"
+            alt="Profile Picture"
+          />
+
+          <p class="nav-usernmae">{{ request.user.username }}</p>
+
+          {% else %}
+
+          <li><a href="/register">Register</a></li>
+          <li><a href="/login">Login</a></li>
+
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- search form -->
+      <form method="get" action="{% url 'search_user' %}">
+        <input
+          type="text"
+          name="username"
+          placeholder="Search for a user..."
+          style="
+            width: 300px;
+            height: 25px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+          "
+        />
+        <a
+          class="misc-buttons"
+          href="./{% url 'search_user' %}%"
+          style="margin-left: 5px"
+          >Search</a
+        >
+      </form>
+
+      {% if request.user.is_authenticated %}
+      <h1>Welcome to {{ request.user.username }}'s Page</h1>
+
+      {% if request.user.appuser.bio %}
+      <p>{{ request.user.appuser.bio }}</p>
+      <a class="misc-buttons" href="/create_bio">Update Bio</a>
+      {% else %}
+      <p>No bio</p>
+      <a class="misc-buttons" href="/create_bio">Update Bio</a>
+      {% endif %}
+      <a class="misc-buttons" href="{% url 'friend_list' %}">View Friends</a>
+      <a class="misc-buttons" href="/create_post">Add Post</a>
+      <a class="misc-buttons" href="/create_image">Add Image</a>
+      <a class="misc-buttons" href="/history/chat">View Past Chats</a>
+
+      <div class="mini-nav">
+        <a class="mini-nav-button" id="post-button" href="#post-section"
+          >Post</a
+        >
+        <a class="mini-nav-button" id="image-button" href="#image-section"
+          >Image</a
+        >
+      </div>
+
+      <div id="post-section" class="section">
+        <h2>Posts</h2>
+
+        {% if posts %} {% for post in posts %}
+        <div class="post">
+          <div class="post-content">
+            <p>{{ post.post_content }}</p>
+          </div>
+          <div class="post-buttons">
+            <a class="button-edit" href="{% url 'update_post' post.id %}"
+              >Update</a
+            >
+            <a class="button-edit" href="{% url 'delete_post' post.id %}"
+              >Delete</a
+            >
+          </div>
+        </div>
+        {% endfor %} {% else %}
+        <p>No posts</p>
+        {% endif %}
+      </div>
+
+      <div id="image-section" class="section">
+        <h2>Images</h2>
+
+        {% if images %} {% for image in images %}
+        <div class="image">
+          {% if image.image %}
+          <img src="{{ image.image.url }}" alt="post image" />
+          <div class="image-buttons">
+            <a class="button-edit" href="{% url 'update_image' image.id %}"
+              >Update</a
+            >
+            <a class="button-edit" href="{% url 'delete_image' image.id %}"
+              >Delete</a
+            >
+          </div>
+        </div>
+        {% endif %} {% endfor %} {% else %}
+        <p>No images</p>
+        {% endif %}
+      </div>
+      {% else %}
+          <h2>Please Log in or Register to access more features<h2>
+          <a class='misc-buttons' href="/login" style="font-weight: lighter">Login</a>
+          <a class='misc-buttons' href="/register" style="font-weight: lighter">Register</a>
+      {% endif %}
+    </div>
+
+    <script>
+      const postSection = document.getElementById("post-section");
+      const imageSection = document.getElementById("image-section");
+      const postButton = document.querySelector(
+        '.mini-nav a[href="#post-section"]'
+      );
+      const imageButton = document.querySelector(
+        '.mini-nav a[href="#image-section"]'
+      );
+
+      postButton.classList.add("active");
+
+      // hide image section by default
+      imageSection.style.display = "none";
+
+      postButton.addEventListener("click", () => {
+        postButton.classList.add("active");
+        imageButton.classList.remove("active");
+        postSection.style.display = "block";
+        imageSection.style.display = "none";
+      });
+
+      imageButton.addEventListener("click", () => {
+        imageButton.classList.add("active");
+        postButton.classList.remove("active");
+        postSection.style.display = "none";
+        imageSection.style.display = "block";
+      });
+    </script>
+  </body>
+</html>

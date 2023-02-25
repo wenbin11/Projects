@@ -1,0 +1,111 @@
+{% load bootstrap4 %} 
+
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="../static/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      .container h1 {
+        font-family: Lato;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 10px;
+        font-family: Lato;
+        font-size: 20px;
+      }
+
+
+      .container button {
+        background-color: #1a237e;
+        color: #fff;
+        border-radius: 10px;
+        border: none;
+        padding: 10px 15px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      .container button:hover {
+        background-color: #2196F3;
+      }
+
+      input[type="text"] {
+        width: 500px;
+        height: 30px;
+        margin-bottom: 10px;
+        border-radius: 10px
+      }
+
+      input[type="password"] {
+        width: 500px;
+        height: 30px;
+        margin-bottom: 10px;
+        border-radius: 10px
+      }
+    </style>
+
+<body>
+  <div class="nav">
+      <div class="nav-logo">
+        <img src="/media/social-media.png" class="logo" alt="logo" />
+
+        <p class="logo-p">Social Media</p>
+      </div>
+
+      <div class="nav-links">
+        <ul>
+          <li><a href="/">Home</a></li>
+
+          {% if request.user.is_authenticated %}
+
+          <li><a href="/logout">Logout</a></li>
+
+          <img
+            class="profile-pic"
+            src="{{ request.user.appuser.profile_pic.url }}"
+            alt="Profile Picture"
+          />
+
+          <p class="nav-usernmae">{{ request.user.username }}</p>
+
+          {% else %}
+
+          <li><a href="/register">Register</a></li>
+          <li><a href="/login">Login</a></li>
+
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  <div class="container">
+  <h1>Login</h1>
+  {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  <form id="login_form" method="post" action="/login/">
+      {% csrf_token %}
+      <label>Username:</label> 
+      <input type="text" name="username" value="" size="50" /> <br />
+      <label>Password: </label>
+      <input type="password" name="password" value="" size="50" /> <br />
+
+      <button type="submit" class="btn btn-primary">Login</button>
+  </form>
+  </div>
+  </body>
+  </html>
+
+
+
